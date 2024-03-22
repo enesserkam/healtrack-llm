@@ -10,4 +10,4 @@
 #SBATCH --mem=1G                  # Memory (RAM) per process
 
 module load python                # Load the python module, adjust if needed
-python my_script.py               # Execute the Python script
+python tmp.py               # Execute the Python script
