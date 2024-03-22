@@ -5,7 +5,7 @@
 #SBATCH --error=job_error.txt     # Error file
 #SBATCH --time=01:00:00           # Time limit hrs:min:sec
 #SBATCH --partition=debug      # Partition to submit to
-#SBATCH --qos=debug
+#SBATCH --qos=short
 #SBATCH --ntasks=1                # Number of tasks (processes)
 #SBATCH --cpus-per-task=1         # Number of CPU cores per task
 #SBATCH --mem=1G                  # Memory (RAM) per process
