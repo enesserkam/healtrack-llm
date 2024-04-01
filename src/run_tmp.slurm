@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#SBATCH --job-name=my_temp_job # Job name
-#SBATCH --output=job_output.txt   # Output file
-#SBATCH --error=job_error.txt     # Error file
-#SBATCH --time=01:00:00           # Time limit hrs:min:sec
-#SBATCH --partition=short_external      # Partition to submit to
-#SBATCH --qos=short_external
-#SBATCH --ntasks=1                # Number of tasks (processes)
-#SBATCH --cpus-per-task=1         # Number of CPU cores per task
-#SBATCH --mem=1G                  # Memory (RAM) per process
+#SBATCH --job-name=my_temp_job
+#SBATCH --output=job_output.txt
+#SBATCH --error=job_error.txt
+#SBATCH --time=01:00:00
+#SBATCH --partition=short_mdbf
+#SBATCH --qos=short_mdbf
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
 
-module load python                # Load the python module, adjust if needed
-python tmp.py               # Execute the Python script
+module load python
+python tmp.py
