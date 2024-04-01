@@ -4,7 +4,7 @@ def main():
     # Initialize the Llama model
     llm = Llama(
         model_path="../models/capybarahermes-2.5-mistral-7b.Q4_K_M.gguf",
-        n_ctx=65536,
+        n_ctx=32768,
         n_threads=16,
         n_gpu_layers=0  # Set to 0 if no GPU is available
     )
