@@ -1,27 +1,31 @@
 from llama_cpp import Llama
 
-llm = Llama(
-  model_path="../capybarahermes-2.5-mistral-7b.Q4_K_M.gguf",  # Download the model file first
-  n_ctx=1024,  # The max sequence length to use - note that longer sequence lengths require much more resources
-  n_threads=4
-)
+def main():
+    # Initialize the Llama model
+    llm = Llama(
+        model_path="./capybarahermes-2.5-mistral-7b.Q4_K_M.gguf",
+        n_ctx=32768,
+        n_threads=12,
+        n_gpu_layers=0  # Set to 0 if no GPU is available
+    )
 
-print("input")
-output = llm(
-  "<|im_start|>system\n{system_message}<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant", # Prompt
-  max_tokens=256,
-  stop=["</s>"],
-  echo=True
-)
-print("output")
-llm = Llama(model_path="../capybarahermes-2.5-mistral-7b.Q4_K_M.gguf", chat_format="llama-2")  # Set chat_format according to the model you are using
-response = llm.create_chat_completion(
-    messages=[
-        {"role": "system", "content": "You are a story writing assistant."},
-        {
-            "role": "user",
-            "content": "Write a story about llamas."
-        }
-    ]
-)
-print(response)
+    # Chat loop
+    print("You can start chatting with the model (type 'quit' to exit).")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == 'quit':
+            break
+
+        # Generate a response
+        response = llm.create_chat_completion(
+            messages=[
+                {"role": "system", "content": "You are a health advise assistant."},
+                {"role": "user", "content": user_input}
+            ]
+        )
+
+        print("AI:", response)
+
+
+if __name__ == "__main__":
+    main()
