@@ -24,7 +24,7 @@ def main():
             ]
         )
 
-        print("AI:", response["content"])
+        print("AI:", response.content)
 
 
 if __name__ == "__main__":
