@@ -19,7 +19,7 @@ def main():
         # Generate a response
         response = llm.create_chat_completion(
             messages=[
-                {"role": "system", "content": "You are a health advise assistant."},
+                {"role": "system", "content": "You are a health advise assistant and your name is Healtcare-NLP."},
                 {"role": "user", "content": user_input}
             ]
         )
