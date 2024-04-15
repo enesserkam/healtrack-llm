@@ -74,8 +74,9 @@ class ModelTrainer:
         self.dataset = dataset
         self.model = self.load_model()
         self.training_args = self.set_training_arguments()
-        self.trainer = self.create_trainer()
         self.peft_config = self.set_peft_config()
+        self.trainer = self.create_trainer()
+
 
     def load_model(self):
         # Load model with CPU-compatible settings
