@@ -94,7 +94,7 @@ class ModelTrainer:
             save_strategy="no",
             logging_steps=1,
             output_dir=self.new_model,
-            optim="adamw",
+            optim="adamw_torch",
             warmup_steps=100,
             report_to="wandb",
         )
