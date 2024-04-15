@@ -4,7 +4,8 @@ import torch
 
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, BitsAndBytesConfig
-from transformers import Trainer, LoraConfig
+from transformers import Trainer
+from peft import LoraConfig
 from datasets import load_dataset
 import wandb
 
