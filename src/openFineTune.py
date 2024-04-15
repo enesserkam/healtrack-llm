@@ -112,14 +112,19 @@ class ModelTrainer:
         self.trainer.train()
 
 
-formData = FormatData()
-formData.saveColumns()
-formData.createTokenizer()
-formData.formatDataset()
+def main():
+    formData = FormatData()
+    formData.saveColumns()
+    formData.createTokenizer()
+    formData.formatDataset()
 
-print("Sample data:", formData.finalDataset[0])
-print("-----------------TOTAL SAMPLES----------------------\n")
-print("Total samples:", len(formData.finalDataset))
+    print("Sample data:", formData.finalDataset[0])
+    print("-----------------TOTAL SAMPLES----------------------\n")
+    print("Total samples:", len(formData.finalDataset))
 
-model_trainer = ModelTrainer(model_name, new_model, formData.tokenizer, formData.finalDataset)
-model_trainer.train_model()
+    model_trainer = ModelTrainer(model_name, new_model, formData.tokenizer, formData.finalDataset)
+    model_trainer.train_model()
+
+
+if __name__ == '__main__':
+    main()
