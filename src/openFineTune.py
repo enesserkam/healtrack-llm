@@ -4,6 +4,7 @@ import torch
 
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, BitsAndBytesConfig
+from transformers import Trainer, LoraConfig
 from datasets import load_dataset
 import wandb
 
@@ -64,9 +65,59 @@ class FormatData:
         self.finalDataset = dataset
 
 
+class ModelTrainer:
+    def __init__(self, model_name, new_model, tokenizer, dataset):
+        self.model_name = model_name
+        self.new_model = new_model
+        self.tokenizer = tokenizer
+        self.dataset = dataset
+        self.model = self.load_model()
+        self.training_args = self.set_training_arguments()
+        self.trainer = self.create_trainer()
+
+    def load_model(self):
+        # Load model with CPU-compatible settings
+        model = AutoModelForCausalLM.from_pretrained(self.model_name)
+        model.config.use_cache = False
+        return model
+
+    def set_training_arguments(self):
+        # Configure training arguments
+        return TrainingArguments(
+            per_device_train_batch_size=4,
+            gradient_accumulation_steps=4,
+            gradient_checkpointing=True,
+            learning_rate=5e-5,
+            lr_scheduler_type="cosine",
+            max_steps=200,
+            save_strategy="no",
+            logging_steps=1,
+            output_dir=self.new_model,
+            optim="adamw",
+            warmup_steps=100,
+            report_to="wandb",
+        )
+
+    def create_trainer(self):
+        # Create a trainer with the given model, arguments, and training dataset
+        return Trainer(
+            model=self.model,
+            args=self.training_args,
+            train_dataset=self.dataset,
+            tokenizer=self.tokenizer
+        )
+
+    def train_model(self):
+        # Start training
+        self.trainer.train()
+
+
 formData = FormatData()
 formData.saveColumns()
 formData.createTokenizer()
 formData.formatDataset()
 
 print(formData.finalDataset[1])
+
+model_trainer = ModelTrainer(model_name, new_model, formData.tokenizer, formData.finalDataset)
+model_trainer.train_model()
