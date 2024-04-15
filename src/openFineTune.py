@@ -5,9 +5,6 @@ import torch
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, BitsAndBytesConfig
 from datasets import load_dataset
-from peft import LoraConfig, PeftModel, get_peft_model, prepare_model_for_kbit_training
-from trl import DPOTrainer
-import bitsandbytes as bnb
 import wandb
 
 hf_token = "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"
