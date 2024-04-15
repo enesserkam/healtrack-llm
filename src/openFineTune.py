@@ -75,6 +75,7 @@ class ModelTrainer:
         self.model = self.load_model()
         self.training_args = self.set_training_arguments()
         self.trainer = self.create_trainer()
+        self.peft_config = self.set_peft_config()
 
     def load_model(self):
         # Load model with CPU-compatible settings
@@ -99,13 +100,27 @@ class ModelTrainer:
             report_to="wandb",
         )
 
+    def set_peft_config(self):
+        return LoraConfig(
+            r=16,
+            lora_alpha=16,
+            lora_dropout=0.05,
+            bias="none",
+            task_type="CAUSAL_LM",
+            target_modules=['k_proj', 'gate_proj', 'v_proj', 'up_proj', 'q_proj', 'o_proj', 'down_proj']
+        )
+
     def create_trainer(self):
         # Create a trainer with the given model, arguments, and training dataset
         return Trainer(
             model=self.model,
             args=self.training_args,
             train_dataset=self.dataset,
-            tokenizer=self.tokenizer
+            tokenizer=self.tokenizer,
+            peft_config = self.peft_config,
+            beta = 0.1,
+            max_prompt_length = 1024,
+            max_length = 1536
         )
 
     def train_model(self):
