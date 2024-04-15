@@ -9,6 +9,8 @@ from trl import DPOTrainer
 from peft import LoraConfig
 from datasets import load_dataset
 import wandb
+from accelerate import Accelerator, DataLoaderConfiguration
+
 
 hf_token = "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"
 wb_token = "b65bdd290664393a92a68f21d76febee13a3b256"
@@ -68,7 +70,8 @@ class FormatData:
 
 
 class ModelTrainer:
-    def __init__(self, model_name, new_model, tokenizer, dataset):
+    def __init__(self, model_name, new_model, tokenizer, dataset, accelerator):
+        self.accelerator = accelerator
         self.model_name = model_name
         self.new_model = new_model
         self.tokenizer = tokenizer
@@ -83,6 +86,7 @@ class ModelTrainer:
         # Load model with CPU-compatible settings
         model = AutoModelForCausalLM.from_pretrained(self.model_name)
         model.config.use_cache = False
+        model = self.accelerator.prepare(model)
         return model
 
     def set_training_arguments(self):
@@ -130,17 +134,24 @@ class ModelTrainer:
 
 
 def main():
+    accelerator = Accelerator()
     formData = FormatData()
     formData.saveColumns()
     formData.createTokenizer()
     formData.formatDataset()
 
+    model_trainer = ModelTrainer(
+        model_name,
+        new_model,
+        formData.tokenizer,
+        formData.finalDataset,
+        accelerator
+    )
+    model_trainer.train_model()
+
     print("Sample data:", formData.finalDataset[0])
     print("-----------------TOTAL SAMPLES----------------------\n")
     print("Total samples:", len(formData.finalDataset))
-
-    model_trainer = ModelTrainer(model_name, new_model, formData.tokenizer, formData.finalDataset)
-    model_trainer.train_model()
 
 
 if __name__ == '__main__':
