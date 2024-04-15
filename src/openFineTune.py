@@ -109,7 +109,6 @@ class ModelTrainer:
         )
 
     def train_model(self):
-        # Start training
         self.trainer.train()
 
 
@@ -118,7 +117,9 @@ formData.saveColumns()
 formData.createTokenizer()
 formData.formatDataset()
 
-print(formData.finalDataset[1])
+print("Sample data:", formData.finalDataset[0])
+print("-----------------TOTAL SAMPLES----------------------\n")
+print("Total samples:", len(formData.finalDataset))
 
 model_trainer = ModelTrainer(model_name, new_model, formData.tokenizer, formData.finalDataset)
 model_trainer.train_model()
