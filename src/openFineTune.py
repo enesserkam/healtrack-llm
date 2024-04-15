@@ -5,6 +5,7 @@ import torch
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, BitsAndBytesConfig
 from transformers import Trainer
+from trl import DPOTrainer
 from peft import LoraConfig
 from datasets import load_dataset
 import wandb
@@ -113,7 +114,7 @@ class ModelTrainer:
 
     def create_trainer(self):
         # Create a trainer with the given model, arguments, and training dataset
-        return Trainer(
+        return DPOTrainer(
             model=self.model,
             args=self.training_args,
             train_dataset=self.dataset,
