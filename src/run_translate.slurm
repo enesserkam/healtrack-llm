@@ -8,7 +8,7 @@
 #SBATCH --qos=short_mdbf
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=28
+#SBATCH --mem=8G
 
 module load python
-python tmp.py
+python pros_translate.py
