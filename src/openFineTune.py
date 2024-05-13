@@ -83,7 +83,6 @@ class ModelTrainer:
 
 
     def load_model(self):
-        # Load model with CPU-compatible settings
         model = AutoModelForCausalLM.from_pretrained(self.model_name)
         model.config.use_cache = False
         model = self.accelerator.prepare(model)
@@ -140,6 +139,10 @@ def main():
     formData.createTokenizer()
     formData.formatDataset()
 
+    print("Sample data:", formData.finalDataset[0])
+    print("-----------------TOTAL SAMPLES----------------------\n")
+    print("Total samples:", len(formData.finalDataset))
+
     model_trainer = ModelTrainer(
         model_name,
         new_model,
@@ -149,9 +152,7 @@ def main():
     )
     model_trainer.train_model()
 
-    print("Sample data:", formData.finalDataset[0])
-    print("-----------------TOTAL SAMPLES----------------------\n")
-    print("Total samples:", len(formData.finalDataset))
+
 
 
 if __name__ == '__main__':
